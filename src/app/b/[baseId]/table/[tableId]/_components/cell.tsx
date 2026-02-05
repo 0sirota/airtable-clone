@@ -63,9 +63,10 @@ export const Cell = memo(function Cell({
   }, [isFocused, editing]);
 
   const updateCell = api.row.updateCell.useMutation({
-    // Fire and forget - don't block UI
-    // The mutation will complete in background
-    // React Query will refetch on window focus if needed
+    onSuccess: () => {
+      // Refresh rows so the new value is reflected in the grid
+      void utils.row.getInfinite.invalidate();
+    },
   });
 
   const handleSave = useCallback(() => {
