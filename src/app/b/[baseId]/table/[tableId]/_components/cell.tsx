@@ -63,8 +63,9 @@ export const Cell = memo(function Cell({
   }, [isFocused, editing]);
 
   const updateCell = api.row.updateCell.useMutation({
-    // No onSuccess - we rely on React Query's automatic refetch on window focus
-    // This prevents blocking the UI while the mutation happens
+    // Fire and forget - don't block UI
+    // The mutation will complete in background
+    // React Query will refetch on window focus if needed
   });
 
   const handleSave = useCallback(() => {
